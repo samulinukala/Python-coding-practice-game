@@ -1,8 +1,8 @@
 
 import os, sys, pygame
 pygame.init()
-screen_width=1600
-screen_height= 900
+screen_width=1000
+screen_height= 600
 player_width=10
 player_height=20
 player_x=screen_width//2-player_width//2
