@@ -14,8 +14,16 @@ player_jumpPower=0
 gravity_multiplier=4
 screen=pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("python testi")
+drawables=[]
+
+def make_platform (pos_x,pos_y,platform_width,platform_height):
+    drawables.append(pygame.Rect(pos_x,pos_y,platform_width,platform_height))
 
 clock= pygame.time.Clock()
+i=0;
+make_platform(0,400,400,40)
+def check_col(rect1,rect2):
+    return rect1.colliderect(rect2)
 while True:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
@@ -36,9 +44,15 @@ while True:
             player_y+=gravity_multiplier
 
     player_jumpPower-= player_jumpdecay
-       
-
     screen.fill((163,154,164))
+    check_col()
+    while (len( drawables)>i) :
+    
+        pygame.draw.rect(screen,(100,30,30),drawables[i])
+        i+=1
+
+    i=0;
+   
     pygame.draw.rect(screen,(0,128,255),(player_x,player_y,player_width,player_height))
     pygame.display.flip()
     clock.tick(90)
