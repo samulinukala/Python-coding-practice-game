@@ -1,5 +1,6 @@
 
 from asyncio.windows_events import NULL
+from cmath import rect
 from itertools import count
 from re import X
 from subprocess import ABOVE_NORMAL_PRIORITY_CLASS
@@ -60,8 +61,10 @@ while True:
     collider=check_colAndRep(playerRect)
     if collider !=NULL :
         vec1=pygame.Vector2(player_x,player_y)
-        cord=collider as Rect.X,collider as Rect.Y
-        vec2=pygame.Vector2()
+        cord=collider
+        vec2=pygame.Vector2(cord)
+        dirvec=vec1-vec2
+        print(dirvec)
     if  player_jumpPower>0 :
         player_y-=player_jumpPower
     elif (check_col(drawables[0],playerRect)) :
