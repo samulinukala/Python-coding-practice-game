@@ -1,11 +1,8 @@
 
-from asyncio.windows_events import NULL
-from cmath import rect
-from itertools import count
-from re import X
-from subprocess import ABOVE_NORMAL_PRIORITY_CLASS
+
+
 import os, sys, pygame
-from tkinter import Y
+
 from pygame.rect import Rect
 
 pygame.init()
@@ -49,24 +46,38 @@ while True:
         if event.type==pygame.QUIT:
             pygame.quit()
             sys.exit()
-    keys=pygame.key.get_pressed()
-
-    if keys[pygame.K_LEFT]and player_x>0:
-        player_x-=player_speed
-    if keys[pygame.K_RIGHT]and player_x <screen_width- player_width:
-        player_x+= player_speed
-    if keys[pygame.K_UP] and player_y>0 and player_jumpPower<=0:
-        player_jumpPower=player_jumpstrength
     dir1=pygame.Vector2(0,0)
     collider=check_colAndRep(playerRect)
-    if collider !=NULL :
+    if collider is not None :
         vec1=pygame.Vector2(player_x,player_y)
-        cord=collider
+        cord=collider.centerx,collider.y
         vec2=pygame.Vector2(cord)
+    
+        
+        
         dirvec=vec1-vec2
-        print(dirvec)
-    if  player_jumpPower>0 :
-        player_y-=player_jumpPower
+        dirvecnorm=pygame.Vector2.normalize(dirvec)
+        print(dirvecnorm)
+   
+            
+    keys=pygame.key.get_pressed()
+
+    if keys[pygame.K_LEFT]and player_x>0 :
+        if collider is None or (dirvecnorm.x>0 and dirvecnorm.y<0):
+            player_x-=player_speed
+    if keys[pygame.K_RIGHT]and player_x <screen_width- player_width:
+        if collider is None or (dirvecnorm.x<0 and dirvecnorm.y<0):
+            player_x+= player_speed
+    if keys[pygame.K_UP] and player_y>0 and player_jumpPower<=0:
+    
+            player_jumpPower=player_jumpstrength
+    
+    if  player_jumpPower>0  :
+        if collider is not None:
+            if dirvecnorm.y<0 :
+                player_y-=player_jumpPower
+        else :
+            player_y-=player_jumpPower
     elif (check_col(drawables[0],playerRect)) :
         print("col")
        # player_y-=player_height/3
