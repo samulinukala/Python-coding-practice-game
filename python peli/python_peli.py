@@ -28,7 +28,7 @@ def make_platform (pos_x,pos_y,platform_width,platform_height):
 clock= pygame.time.Clock()
 i=0
 
-make_platform(0,400,400,40)
+make_platform(0,500,400,20)
 def check_col(rect1,rect2):
     return pygame.Rect(rect1).colliderect(pygame.Rect(rect2))
 def check_colAndRep(checkAgainst) :
@@ -98,7 +98,7 @@ while True:
 
     i=0
    
-    pygame.draw.rect(screen,(0,128,255),playerRect);
+    pygame.draw.rect(screen,(0,128,255),playerRect)
     pygame.display.flip()
     clock.tick(90)
 
