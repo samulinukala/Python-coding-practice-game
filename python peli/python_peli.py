@@ -27,7 +27,11 @@ def make_platform (pos_x,pos_y,platform_width,platform_height):
 
 clock= pygame.time.Clock()
 i=0
-
+levelplay=False
+tiles_count=60
+tilewidth=16.667
+tileheight=10.000
+tilevertcount=10
 make_platform(0,500,400,20)
 def check_col(rect1,rect2):
     return pygame.Rect(rect1).colliderect(pygame.Rect(rect2))
@@ -38,7 +42,7 @@ def check_colAndRep(checkAgainst) :
             return drawables[t]
         t+=1
         
-   
+
 
 while True:
     playerRect=pygame.Rect(player_x,player_y,player_width,player_height)
@@ -46,59 +50,69 @@ while True:
         if event.type==pygame.QUIT:
             pygame.quit()
             sys.exit()
-    dir1=pygame.Vector2(0,0)
-    collider=check_colAndRep(playerRect)
-    if collider is not None :
-        vec1=pygame.Vector2(player_x,player_y)
-        cord=collider.centerx,collider.y
-        vec2=pygame.Vector2(cord)
-        dirvec=vec1-vec2
-        dirvecnorm=pygame.Vector2.normalize(dirvec)
-        print(dirvecnorm)
-        print(abs(dirvecnorm.x),abs(dirvecnorm.y))
-            
-    keys=pygame.key.get_pressed()
+    if(levelplay):
         
-    if keys[pygame.K_LEFT]and player_x>0 :
-        if collider is None or abs(dirvecnorm.x)<0.999 :
-            player_x-=player_speed
-    if keys[pygame.K_RIGHT]and player_x <screen_width- player_width:
-        if collider is None or abs(dirvecnorm.x)<0.999 :
-            player_x+= player_speed
-    if keys[pygame.K_UP] and player_y>0 and player_jumpPower<=0:
-    
-            player_jumpPower=player_jumpstrength
-    
-    if  player_jumpPower>0  :
-        if collider is not None:
-            if dirvecnorm.y<0 :
-                player_y-=player_jumpPower
-        else :
-            player_y-=player_jumpPower
-    elif (check_col(drawables[0],playerRect)) :
-        print("col")
-       # player_y-=player_height/3
-  
-    if player_y<screen_height-player_height :
-            if collider is not None :
-                if dirvecnorm.y>0 :
-                    player_y+=gravity_multiplier
+        dir1=pygame.Vector2(0,0)
+        collider=check_colAndRep(playerRect)
+        if collider is not None :
+            vec1=pygame.Vector2(player_x,player_y)
+            cord=collider.centerx,collider.y
+            vec2=pygame.Vector2(cord)
+            dirvec=vec1-vec2
+            dirvecnorm=pygame.Vector2.normalize(dirvec)
+            print(dirvecnorm)
+            print(abs(dirvecnorm.x),abs(dirvecnorm.y))
+                
+        keys=pygame.key.get_pressed()
+            
+        if keys[pygame.K_LEFT]and player_x>0 :
+            if collider is None or abs(dirvecnorm.x)<0.999 :
+                player_x-=player_speed
+        if keys[pygame.K_RIGHT]and player_x <screen_width- player_width:
+            if collider is None or abs(dirvecnorm.x)<0.999 :
+                player_x+= player_speed
+        if keys[pygame.K_UP] and player_y>0 and player_jumpPower<=0:
+        
+                player_jumpPower=player_jumpstrength
+        
+        if  player_jumpPower>0  :
+            if collider is not None:
+                if dirvecnorm.y<0 :
+                    player_y-=player_jumpPower
             else :
-                player_y+=gravity_multiplier 
-
-    player_jumpPower-= player_jumpdecay
-    screen.fill((163,154,164))
-   
-   
+                player_y-=player_jumpPower
+        elif (check_col(drawables[0],playerRect)) :
+            print("col")
+        # player_y-=player_height/3
     
-    while (len( drawables)>i) :
-    
-        pygame.draw.rect(screen,(100,30,30),drawables[i])
-        i+=1
+        if player_y<screen_height-player_height :
+                if collider is not None :
+                    if dirvecnorm.y>0 :
+                        player_y+=gravity_multiplier
+                else :
+                    player_y+=gravity_multiplier 
 
-    i=0
-   
-    pygame.draw.rect(screen,(0,128,255),playerRect)
+        player_jumpPower-= player_jumpdecay
+        screen.fill((163,154,164))
+    
+    
+        
+        while (len( drawables)>i) :
+        
+            pygame.draw.rect(screen,(100,30,30),drawables[i])
+            i+=1
+        i=0
+    
+        pygame.draw.rect(screen,(0,128,255),playerRect)
+    if(not levelplay):
+        screen.fill((60,60,60))
+        i=0
+        while (i<tiles_count):
+            z=0
+            while (z<tilevertcount):
+                
+                pygame.draw.rect(screen,(100,30,30),pygame.Rect(8.334+))
+            i+=1
     pygame.display.flip()
     clock.tick(90)
 
